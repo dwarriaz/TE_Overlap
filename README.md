@@ -2,8 +2,8 @@
 Repo for TE Distribution Code Development
 
 ## Todo
-- make it robust, testing figure out how to build tests
-- Send mySEQL code, automate 
-- make this usable, command line option integration
-- LEARN HOW TO USE GITHUB
-- Make more modular classes 
+- [] Make it robust, testing figure out how to build tests
+- [x] Make this usable, command line option integration
+- [] LEARN HOW TO USE GITHUB
+- [] Make more modular classes
+- [] Curate Test Gene list 
