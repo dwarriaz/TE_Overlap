@@ -155,7 +155,7 @@ def main():
     for index in range(0,len(intersectiondata)):
         intersectiondata[index].append(Exon_Raw_Data[0][1])
         intersectiondata[index].append(Exon_Raw_Data[0][2])
-    print('we made it!') 
+    
     
     for element in intersectiondata:
         newlist = [element[0], element[1]+'_range='+element[7]+':'+element[3]+'-'+element[4]+'_strand='+element[2],element[7],element[3],element[4],element[2],element[8],element[5],element[6]]
