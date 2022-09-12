@@ -1,0 +1,10 @@
+mysql --user=genome --host=genome-mysql.soe.ucsc.edu -A -P 3306
+
+mysql> USE hg38
+    SELECT * 
+    INTO OUTFILE '~/KimLab/TE_Overlap/TestData/rep_test_lib.csv'
+    FIELDS TERMINATED BY ','
+    ENCLOSED BY '"'
+    LINES TERMINATED BY '\n'
+    FROM rmsk
+    WHERE foo = 'bar';

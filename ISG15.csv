@@ -1,0 +1,2 @@
+#"name","chrom","strand","txStart","txEnd","cdsStart","cdsEnd","exonCount","exonStarts","exonEnds","name2"
+"NM_005101.4","chr1","+","1013496","1014540","1013573","1014478","2","1013496,1013983,","1013576,1014540,","ISG15"
