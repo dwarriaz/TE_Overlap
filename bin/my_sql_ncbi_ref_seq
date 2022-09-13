@@ -1,6 +1,5 @@
 mysql --user=genome --host=genome-mysql.soe.ucsc.edu -A -P 3306
-
-mysql> USE hg38
+    USE hg38
     SELECT name, chrom, strand, txStart, txEnd, cdsStart, cdsEnd, exonCount, exonCount, exonEnds, name2
     INTO OUTFILE '~/KimLab/TE_Overlap/TestData/testlib.csv'
     FIELDS TERMINATED BY ','
