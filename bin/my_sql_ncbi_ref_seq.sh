@@ -12,5 +12,6 @@ mysql --batch --user=genome --host=genome-mysql.cse.ucsc.edu -N -A -D hg38 -e \
         concat("\"",exonStarts, "\""),
         concat("\"",exonEnds, "\""),
         name2
-        from ncbiRefSeq;' \
+        from ncbiRefSeq
+        where name2="KRAS";' \
         | sed 's/\t/,/g'
