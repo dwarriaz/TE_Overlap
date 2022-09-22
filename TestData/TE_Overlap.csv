@@ -1,4 +1,4 @@
-isoform,MER5B_range=chr1:11677-11780_strand=-,chrom,start,stop,instrand,genstrand,classification,overlap_count
+isoform,insertion,chrom,start,stop,instrand,genstrand,classification,overlap_count
 ENST00000690406.1,L2a_range=chr12:25207132-25207255_strand=+,chr12,25207132,25207255,+,-,exon,123
 ENST00000690406.1,AluSz_range=chr12:25207273-25207526_strand=+,chr12,25207273,25207526,+,-,exon,253
 ENST00000690406.1,MamSINE1_range=chr12:25208644-25208823_strand=-,chr12,25208644,25208823,-,-,exon,179
