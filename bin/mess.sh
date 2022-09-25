@@ -30,10 +30,19 @@ do
         from ncbiRefSeq
         where name2= '$gene';' \
         | sed 's/\t/,/g' > test.csv
+    
+    head -1 test.csv | range1= cut -d ',' -f 4 
+    head -1 test.csv | range2= cut -d ',' -f 5 
 
-    'select *
-        from rmsk
-        where genoStart in '$range';' \
+    range=$( echo $range1 += echo $range2)
+    echo $range
+
+    
+    ##mysql --batch --user=genome --host=genome-mysql.cse.ucsc.edu -N -A -D hg38 -e \
+    ##'select *
+        ##from rmsk
+        ##where genoStart in '(1,500+$range1)'..'(500+$range2)';' \
+        ##| sed 's/\t/,/g' > repeat.csv
     
     ## range notation must be in the format (lower..upper), do the math in bash
 
