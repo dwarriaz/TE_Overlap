@@ -31,22 +31,25 @@ do
         where name2= '$gene';' \
         | sed 's/\t/,/g' > test.csv
     
-    head -1 test.csv | range1= cut -d ',' -f 4 
-    head -1 test.csv | range2= cut -d ',' -f 5 
+    start=$(head -1 test.csv | cut -d',' -f4)   
+    stop=$(head -1 test.csv | cut -d',' -f5)
+    chrom=$(head -1 test.csv | cut -d',')
 
-    range=$( echo $range1 += echo $range2)
+    start=$(($start + 1500))
+    stop=$(($stop + 500))
+
+    range=$(echo \($start..$stop\))
     echo $range
 
+    mysql --batch --user=genome --host=genome-mysql.cse.ucsc.edu -N -A -D hg38 -e \
+    'select *
+        from rmsk
+        where genoStart between '$start' and '$stop';' \
+        | sed 's/\t/,/g' > repeat.csv
     
-    ##mysql --batch --user=genome --host=genome-mysql.cse.ucsc.edu -N -A -D hg38 -e \
-    ##'select *
-        ##from rmsk
-        ##where genoStart in '(1,500+$range1)'..'(500+$range2)';' \
-        ##| sed 's/\t/,/g' > repeat.csv
-    
-    ## range notation must be in the format (lower..upper), do the math in bash
+    ##range notation must be in the format (lower..upper), do the math in bash
 
-# for promoter 1,500 upstream and 3' 500 downstream
+## for promoter 1,500 upstream and 3' 500 downstream
 done
 
 
