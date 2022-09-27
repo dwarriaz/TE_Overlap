@@ -33,7 +33,9 @@ do
     
     start=$(head -1 test.csv | cut -d',' -f4)   
     stop=$(head -1 test.csv | cut -d',' -f5)
-    chrom=$(head -1 test.csv | cut -d',')
+    chrom=$(head -1 test.csv | cut -d',' -f2)
+
+    echo $chrom
 
     start=$(($start + 1500))
     stop=$(($stop + 500))
