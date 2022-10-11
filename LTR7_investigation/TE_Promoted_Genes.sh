@@ -36,7 +36,7 @@ while read chrom repStart repEnd; do
 
     chrom="\"$(echo $chrom)\""
     
-
+strand="'+'"
     name=$(mysql --batch --user=genome --host=genome-mysql.cse.ucsc.edu -N -A -D hg38 -e \
     'select name,
         name2
@@ -46,11 +46,11 @@ while read chrom repStart repEnd; do
 
     if [[ ! -z $name ]]; then
     #    echo $chrom_config $repStart $repEnd $name $gene_name
-        printf "%s\t%s\t%s\t%s\n" $chrom_config $repStart $repEnd $name 
+        printf "%s\t%s\t%s\t+\t%s_%s\n" $chrom_config $repStart $repEnd $name 
     fi
 
 
-done < <(cut -d$'\t' -f6,7,8 ${gene_name}_Genomic_Positions.tsv)| grep '^chr' >> Positive_${gene_name}_Dependent_Gene_List.bed
+done < <(cut -d$'\t' -f6,7,8 ${gene_name}_Genomic_Positions.tsv)| grep '^chr' >> ${gene_name}_Dependent_Gene_List.bed
 
 # Negative Stranded Genes
 
@@ -71,12 +71,12 @@ while read chrom repStart repEnd; do
         
     if [[ ! -z $name ]]; then
     #    echo $chrom_config $repStart $repEnd $name $gene_name
-        printf "%s\t%s\t%s\t%s\n" $chrom_config $repStart $repEnd $name 
+        printf "%s\t%s\t%s\t-\t%s_%s\n" $chrom_config $repStart $repEnd $name  
     fi
     
     
 
-done < <(cut -d$'\t' -f6,7,8 ${gene_name}_Genomic_Positions.tsv) | grep '^chr' >> Negative_${gene_name}_Dependent_Gene_List.bed
+done < <(cut -d$'\t' -f6,7,8 ${gene_name}_Genomic_Positions.tsv) | grep '^chr' >> ${gene_name}_Dependent_Gene_List.bed
 
 
 
