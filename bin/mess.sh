@@ -27,13 +27,13 @@ do
         concat("\"",exonStarts, "\""),
         concat("\"",exonEnds, "\""),
         name2
-        from ncbiRefSeq
+        from wgEncodeGencodeBasicV41
         where name2= '$gene';' \
-        | sed 's/\t/,/g' > test.csv
+        | sed 's/\t/,/g' > KRAS.csv
     
-    start=$(head -1 test.csv | cut -d',' -f4)   
-    stop=$(head -1 test.csv | cut -d',' -f5)
-    chrom=$(head -1 test.csv | cut -d',' -f2)
+    start=$(head -1 KRAS.csv | cut -d',' -f4)   
+    stop=$(head -1 KRAS.csv | cut -d',' -f5)
+    chrom=$(head -1 KRAS.csv | cut -d',' -f2)
 
     echo $chrom
 
@@ -47,7 +47,7 @@ do
     'select *
         from rmsk
         where genoStart between '$start' and '$stop';' \
-        | sed 's/\t/,/g' > repeat.csv
+        | sed 's/\t/,/g' > Gencode_KRAS.csv
     
     ##range notation must be in the format (lower..upper), do the math in bash
 

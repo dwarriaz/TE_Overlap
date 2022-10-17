@@ -40,7 +40,7 @@ strand="'+'"
     name=$(mysql --batch --user=genome --host=genome-mysql.cse.ucsc.edu -N -A -D hg38 -e \
     'select name,
         name2
-        from ncbiRefSeq
+        from wgEncodeGencodeBasicV41
         where chrom = '$chrom' and txStart between '$repStart' and '$(($repStart+($repEnd - $repStart)+1500))';')
     
 
@@ -66,7 +66,7 @@ while read chrom repStart repEnd; do
     name=$(mysql --batch --user=genome --host=genome-mysql.cse.ucsc.edu -N -A -D hg38 -e \
     'select name,
         name2
-        from ncbiRefSeq
+        from wgEncodeGencodeBasicV41
         where chrom = '$chrom' and strand = '$strand' and txEnd between '$(($repStart-1500))' and '$((($repEnd-$repStart)+$repStart))';')
         
     if [[ ! -z $name ]]; then
