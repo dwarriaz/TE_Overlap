@@ -53,7 +53,7 @@ do
     
 done
 
-
+python3 overwriTE.py -Gene ${gene_config}.csv -Repeats ${gene_config}_repeats.csv
 
 
 
