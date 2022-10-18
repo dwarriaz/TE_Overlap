@@ -11,6 +11,7 @@ declare -a gene_list
 
 for gene in "${gene_list[@]}"
 do 
+    gene_config=$gene
     gene="\"$(echo $gene)\""
 
     ## This line above will simply add quotes to the gene name for query compatibility
@@ -27,15 +28,15 @@ do
         concat("\"",exonStarts, "\""),
         concat("\"",exonEnds, "\""),
         name2
-        from ncbiRefSeq
+        from wgEncodeGencodeBasicV41
         where name2= '$gene';' \
-        | sed 's/\t/,/g' > test.csv
+        | sed 's/\t/,/g' > ${gene_config}.csv
     
-    start=$(head -1 test.csv | cut -d',' -f4)   
-    stop=$(head -1 test.csv | cut -d',' -f5)
-    chrom=$(head -1 test.csv | cut -d',' -f2)
+    start=$(head -1 ${gene_config}.csv | cut -d',' -f4)   
+    stop=$(head -1 ${gene_config}.csv | cut -d',' -f5)
+    chrom=$(head -1 ${gene_config}.csv | cut -d',' -f2)
 
-    echo $chrom
+    chrom="\"$(echo $chrom)\""
 
     start=$(($start + 1500))
     stop=$(($stop + 500))
@@ -46,13 +47,13 @@ do
     mysql --batch --user=genome --host=genome-mysql.cse.ucsc.edu -N -A -D hg38 -e \
     'select *
         from rmsk
-        where genoStart between '$start' and '$stop';' \
-        | sed 's/\t/,/g' > repeat.csv
+        where genoName = '$chrom' and genoStart between '$start' and '$stop';' \
+        | sed 's/\t/,/g' > ${gene_config}_repeats.csv
     
-    ##range notation must be in the format (lower..upper), do the math in bash
-
-## for promoter 1,500 upstream and 3' 500 downstream
+    
 done
+
+
 
 
 
