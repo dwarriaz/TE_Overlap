@@ -44,7 +44,6 @@ do
     genoStrand_config="'$genoStrand'"
     chrom_config="\"$(echo $chrom)\""
 
-    echo $genoStrand_config
 
 
     mysql --batch --user=genome --host=genome-mysql.cse.ucsc.edu -N -A -D hg38 -e \
@@ -53,7 +52,7 @@ do
         where genoName = '$chrom_config' and genoStart between '$start' and '$stop';' \
         | sed 's/\t/,/g' > output/${gene_config}_repeats.csv
     
-    python3 overwriTE.py -Gene output/${gene_config}.csv -Repeats output/${gene_config}_repeats.csv
+    python3 overwriTE.py -Gene output/${gene_config}.csv -Repeats output/${gene_config}_repeats.csv > checkingout.txt
 
     if [[ $genoStrand_config == "'+'" ]]; then
         mysql --batch --user=genome --host=genome-mysql.cse.ucsc.edu -N -A -D hg38 -e \
@@ -65,14 +64,12 @@ do
     
         while read repStart repEnd repStrand repName; do 
             
-            printf "%s_Promoter_Region,%s,%s_range=%s:%s-%s_strand=+,%s,%s,%s,%s,%s,Promoter_Region,%s" $gene_config $gene_config $repName $chrom $repStart $repEnd $chrom $repStart $repEnd $repStrand $genoStrand $(($repEnd-$repStart))
+            printf "%s_Promoter_Region,%s,%s_range=%s:%s-%s_strand=+,%s,%s,%s,%s,%s,promoter,%s" $gene_config $gene_config $repName $chrom $repStart $repEnd $chrom $repStart $repEnd $repStrand $genoStrand $(($repEnd-$repStart))
         done < <(cut -d$'\t' -f7,8,10,11 output/temp.tsv) >> output/TE_Overlap.csv
-        rm output/temp.csv
+        rm output/temp.tsv
     fi
     
     if [[ $genoStrand_config == "'-'" ]]; then
-        
-
         mysql --batch --user=genome --host=genome-mysql.cse.ucsc.edu -N -A -D hg38 -e \
         'select *
             from rmsk
@@ -82,7 +79,7 @@ do
     
         while read repStart repEnd repStrand repName; do 
             
-            printf "%s_Promoter_Region,%s,%s_range=%s:%s-%s_strand=-,%s,%s,%s,%s,%s,promoter,%s" $gene_config $gene_config $repName $chrom $repStart $repEnd $chrom $repStart $repEnd $repStrand $genoStrand $(($repEnd-$repStart))
+            printf "%s_Promoter_Region,%s,%s_range=%s:%s-%s_strand=-,%s,%s,%s,%s,%s,promoter,%s\n" $gene_config $gene_config $repName $chrom $repStart $repEnd $chrom $repStart $repEnd $repStrand $genoStrand $(($repEnd-$repStart))
         done < <(cut -d$'\t' -f7,8,10,11 output/temp.tsv) >> output/TE_Overlap.csv
         rm output/temp.tsv
     fi

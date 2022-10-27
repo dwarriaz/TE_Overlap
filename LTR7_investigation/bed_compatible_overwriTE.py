@@ -1,4 +1,6 @@
 import csv
+from logging.handlers import SYSLOG_TCP_PORT
+import sys
 
 class readBED:
     
@@ -34,14 +36,16 @@ class MYSQL_query:
         
 
 def main():
-    
-    filereader = readBED("flair.collapse.isoforms.bed")
+    filereader = readBED(sys.argv[1])
     
     rawdata = filereader.bedreader()
     
+    
     query = MYSQL_query.rangesplit(rawdata)
     
-    with open("query.csv", "w") as f:
+    filename = (sys.argv[2]+'.csv')
+    
+    with open(filename, "w") as f:
         writer = csv.writer(f)
         writer.writerows(query)
      
