@@ -26,7 +26,7 @@ class readCSV:
         csvdata = [] 
         with open(self.filename,'r') as file:
             csvreader = csv.reader(file)
-            #######header = next(csvreader)
+            #header = next(csvreader)
             for row in csvreader:
                 csvdata.append(row)
         return csvdata        
@@ -39,6 +39,9 @@ class readCSV:
         for element in Ecsvdata:
             rangelist = []
             if element[1] == '+':
+
+                rangelist.append(element[5])
+
                 startlist = element[3].split(',')
                 startlist.remove('')
 
@@ -53,6 +56,9 @@ class readCSV:
 
                     
             elif element[1] == '-':
+
+                rangelist.append(element[6])
+
                 startlist = element[3].split(',')
                 startlist.remove('')
 
@@ -91,16 +97,22 @@ class readCSV:
         for isoform in dict_of_ranges:
             for gene_id, values in isoform.items():
                 
+                TSS = values.pop(0)
+                
+                transcription_start = int(TSS)
+                    
+                for repeat in repeat_data:
+                    set_of_ranges = set((repeat[2]))
+
+                    if transcription_start in set_of_ranges:
+                        overlapdata.append([gene_id,repeat[0],repeat[1],repeat[3],repeat[4],'TSS',len(set_of_ranges)]) 
+                
                 for exon in values:
                     exon = set(exon)
                 
                     for repeat in repeat_data:
                         set_of_ranges = set(repeat[2])
             
-                        #for repeat,ranges in repeat.items():
-                            #set_of_ranges = set(ranges)
-                            #print(set_of_ranges)
-                            
                             
                         if len(exon.intersection(set_of_ranges)) >= 1:
                             if len(set_of_ranges) == len(exon.intersection(set_of_ranges)):
@@ -135,7 +147,7 @@ def main():
     
     Ecsvdata = []
     for element in Exon_Raw_Data:
-        Ecsvdata.append([element[0],element[2],element[7], element[8], element[9]])
+        Ecsvdata.append([element[0],element[2],element[7], element[8], element[9], element[3], element[4]])
     Rcsvdata = []   
     for element in Repeats_Raw_Data:
         Rcsvdata.append([element[10],element[9],element[6],element[7]])

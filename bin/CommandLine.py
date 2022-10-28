@@ -176,8 +176,8 @@ def main():
         newlist = [element[0], element[1]+'_range='+element[7]+':'+element[3]+'-'+element[4]+'_strand='+element[2],element[7],element[3],element[4],element[2],element[8],element[5],element[6]]
         finaldata.append(newlist)
     
-    overlaps = pd.DataFrame(finaldata, columns= ['isoform','insertion_name','chrom','start','stop','instrand','genstrand','classification','overlap_count'])
-    overlaps.to_csv('TE_Overlap.csv', index=False)
+    overlaps = pd.DataFrame(finaldata)
+    overlaps.to_csv('output/TE_Overlap.csv', index=False, mode='a')
     
 if __name__ == "__main__":
     main()
